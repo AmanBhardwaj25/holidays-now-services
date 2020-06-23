@@ -2,7 +2,10 @@ package com.example.springboot;
 
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.FileNotFoundException;
 import java.util.List;
+
+import javax.websocket.server.PathParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -24,6 +27,13 @@ public class HelloController {
 	@GetMapping("/destination")
 	List<Destination> all() {
 	    return service.getDestinations();
+	  }
+	
+	
+	@CrossOrigin(origins = "http://localhost:4200")
+	@GetMapping("/destinationByID/{i}")
+	List<Destination> byId(@PathVariable int i ) throws FileNotFoundException {
+	    return service.getDestinationByID(i);
 	  }
 	
 	
