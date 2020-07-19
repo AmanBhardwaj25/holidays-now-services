@@ -1,17 +1,34 @@
 package com.example.springboot;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
+@Entity
+@Table(name = "`DESTINATIONS`")
 public class Destination
 {
-	
+	@Column(name="CITY")
 	String city;
+	
+	@Column(name="STATE")
 	String state;
+	
+	@Column(name="COUNTRY")
 	String country;
+	
+	@Id
+	@Column(name="ID")
 	String id;
+	
+	
+	  protected Destination() {}
+
 
 	public Destination(String id, String city, String state, String country) {
 	
-	
+		
 		this.id = id;
 		this.country = country;
 		this.city = city;
@@ -52,6 +69,13 @@ public class Destination
 	public void setId(String id) {
 		this.id = id;
 	}
+	
+	@Override
+	  public String toString() {
+	    return String.format(
+	        "Destination[id='%s', city='%s', state='%s', country='%s']",
+	        id, city, state, country);
+	  }
 	
 	
 	

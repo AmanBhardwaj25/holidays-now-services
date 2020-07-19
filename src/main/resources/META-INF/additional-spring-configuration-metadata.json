@@ -1,0 +1,17 @@
+{"properties": [
+  {
+    "name": "dns",
+    "type": "java.lang.String",
+    "description": "A description for 'dns'"
+  },
+  {
+    "name": "username",
+    "type": "java.lang.String",
+    "description": "A description for 'username'"
+  },
+  {
+    "name": "password",
+    "type": "java.lang.String",
+    "description": "A description for 'password'"
+  }
+]}

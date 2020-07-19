@@ -1,9 +1,8 @@
 package com.example.springboot;
 
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -12,6 +11,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Properties;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 
@@ -20,41 +20,35 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class DestinationsService {
-/*	
-	Destination dallas = new Destination("1","Dallas","Texas");
 	
 	
-	Destination irving = new Destination("2","Irving","Texas");
+	@Value("${dns}")
+	String dns;
 	
-	Destination newyork = new Destination("3","New York","New York");
+	@Value("${user}")
+	String user;
+	
+	@Value("${password}")
+	String pass;
 	
 	
-		
 	
-	
-	public ArrayList<Destination> getDestinations(){
-		
-		ArrayList<Destination> destarray = new ArrayList<Destination>();
-		destarray.add(dallas);
-		destarray.add(irving);
-		destarray.add(newyork);
-		
-		return destarray;
-	}
-	
-*/
-	public ArrayList<Destination> getDestinations(){
+	public ArrayList<Destination> getDestinations() throws IOException{
 		
 		ArrayList<Destination> destarray = new ArrayList<Destination>();
 		
-		String dns = "jdbc:mysql://holidays.cvwtgrabutha.us-east-2.rds.amazonaws.com:3306/holidays?useSSL=FALSE";
-		
 	
-	Connection connection = null;
+		Connection connection = null;
     try
     {
+    	
+    	
+    	
+    	
+    	
+    	System.out.println("Values for creds: " + dns + user + pass);
       // create a database connection
-	      connection = DriverManager.getConnection(dns,"root","ohnothe5oh");
+	      connection = DriverManager.getConnection(dns,user,pass);
       Statement statement = connection.createStatement();
       statement.setQueryTimeout(30);  // set timeout to 30 sec.
 
@@ -62,23 +56,26 @@ public class DestinationsService {
       
      
       
-      ResultSet rs = statement.executeQuery("SELECT * from DESTINATIONS WHERE ID = 100");
+      ResultSet rs = statement.executeQuery("SELECT * from DESTINATIONS");
       
-      rs.next();
+      while (  rs.next()) {
       
-      Destination newyork = new Destination(rs.getString("ID"),rs.getString("COUNTRY"),rs.getString("CITY"),rs.getString("STATE"));
+     Destination dest = new Destination(rs.getString("ID"),rs.getString("COUNTRY"),rs.getString("CITY"),rs.getString("STATE"));
+    	  
+    	//  Destination dest = new Destination(rs.getString("COUNTRY"),rs.getString("CITY"),rs.getString("STATE"));
       
-      destarray.add(newyork);
-      
-      while(rs.next())
-      {
-        // read the result set
-        System.out.println("name = " + rs.getString("CITY"));
-        System.out.println("id = " + rs.getInt("ID"));
-      }
-      
+      destarray.add(dest);
       
      
+      // read the result set
+  	  	System.out.println("name = " + rs.getString("CITY"));
+      	System.out.println("id = " + rs.getInt("ID"));
+    	
+    
+      
+     
+      }
+    
     }
     catch(SQLException e)
     {
@@ -104,7 +101,7 @@ public class DestinationsService {
     
 	}
 	
-	public ArrayList<Destination> getDestinationByID(int i) throws FileNotFoundException{
+	public ArrayList<Destination> getDestinationByID(int i) throws IOException{
 		
 		
 
@@ -112,21 +109,8 @@ public class DestinationsService {
 		ArrayList<Destination> destarray = new ArrayList<Destination>();
 		
 		
-		FileReader reader = new FileReader("src/main/resources/cred.properties");  
-	      
-	    Properties auth =new Properties();  
-	    try {
-			auth.load(reader);
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}  
 		
-		String dns = auth.getProperty("dns");
-		
-		String user = auth.getProperty("username");
-		
-		String pass = auth.getProperty("password");
+	
 		
 		Connection connection = null;
 	    try
@@ -144,20 +128,15 @@ public class DestinationsService {
 	      
 	      rs.next();
 	      
-	      Destination dest = new Destination(rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4));
+	   Destination dest = new Destination(rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4));
+	      
+	   //   Destination dest = new Destination(rs.getString("COUNTRY"),rs.getString("CITY"),rs.getString("STATE"));
 	      
 	      
 	      System.out.println("String 1: " + rs.getString(1)+ " String 2: " + rs.getString(2));
 	      
 	      destarray.add(dest);
-	/*      
-	      while(rs.next())
-	      {
-	        // read the result set
-	        System.out.println("name = " + rs.getString("CITY"));
-	        System.out.println("id = " + rs.getInt("ID"));
-	      } */
-	      
+	
 	      
 	     
 	    }

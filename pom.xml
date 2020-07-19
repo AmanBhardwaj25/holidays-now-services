@@ -2,6 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+	<packaging>jar</packaging>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
@@ -23,6 +24,15 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
+		<dependency>
+  <groupId>org.springframework.boot</groupId>
+  <artifactId>spring-boot-starter-security</artifactId>
+</dependency>
+<dependency>
+  <groupId>org.springframework.security</groupId>
+  <artifactId>spring-security-test</artifactId>
+  <scope>test</scope>
+</dependency>
 		
 		<dependency>
             <groupId>org.springframework.boot</groupId>
@@ -46,6 +56,10 @@
             <scope>runtime</scope>
         </dependency>
         <dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-thymeleaf</artifactId>
+		</dependency>
+        <dependency>
    			<groupId>javax.persistence</groupId>
   			 <artifactId>persistence-api</artifactId>
    			<version>1.0.2</version>
@@ -61,12 +75,53 @@
 	</dependencies>
 
 	<build>
+	
+	<resources>
+        <resource>
+            <directory>src/main/resources</directory>
+            <includes>
+                <include>**/*.properties</include>
+            </includes>
+        </resource>
+    </resources>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
-		</plugins>
+				<version>2.2.2.RELEASE</version>
+				<executions>
+				<execution>
+					<goals>
+						
+						<goal>repackage</goal>
+						
+						
+					</goals>
+				</execution>
+				</executions>
+	
+      	<configuration>
+        	<archive>
+         	 <manifest>
+           	 <addClasspath>true</addClasspath>
+           	 <classpathPrefix>lib/</classpathPrefix>
+          	  <mainClass>com.example.springboot.Application</mainClass>
+         	 </manifest>
+      	  </archive>
+     	 </configuration>
+    	</plugin>
+    	
+    	
+    	
+    	
+    
+    	
+  
+    	
+  		</plugins>
 	</build>
+	
+	
+	
 
 </project>
